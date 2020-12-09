@@ -15,17 +15,16 @@
 
 // CAboutDlg dialog used for App About
 
-class CAboutDlg : public CDialogEx
-{
+class CAboutDlg : public CDialogEx{
 public:
 	CAboutDlg();
 
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_ABOUTBOX };
+	enum{ IDD = IDD_ABOUTBOX };
 #endif
 
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 // Implementation
@@ -33,12 +32,10 @@ protected:
 	DECLARE_MESSAGE_MAP()
 };
 
-CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
-{
+CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX){
 }
 
-void CAboutDlg::DoDataExchange(CDataExchange* pDX)
-{
+void CAboutDlg::DoDataExchange(CDataExchange* pDX){
 	CDialogEx::DoDataExchange(pDX);
 }
 
@@ -51,13 +48,11 @@ END_MESSAGE_MAP()
 
 
 CAmpMFCDlg::CAmpMFCDlg(CWnd* pParent /*=nullptr*/)
-	: CDialogEx(IDD_AMPMFC_DIALOG, pParent)
-{
+	: CDialogEx(IDD_AMPMFC_DIALOG, pParent){
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
-void CAmpMFCDlg::DoDataExchange(CDataExchange* pDX)
-{
+void CAmpMFCDlg::DoDataExchange(CDataExchange* pDX){
 	CDialogEx::DoDataExchange(pDX);
 }
 
@@ -65,13 +60,13 @@ BEGIN_MESSAGE_MAP(CAmpMFCDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(IDC_BUTTON1, &CAmpMFCDlg::OnBnClickedButton1)
 END_MESSAGE_MAP()
 
 
 // CAmpMFCDlg message handlers
 
-BOOL CAmpMFCDlg::OnInitDialog()
-{
+BOOL CAmpMFCDlg::OnInitDialog(){
 	CDialogEx::OnInitDialog();
 
 	// Add "About..." menu item to system menu.
@@ -81,14 +76,12 @@ BOOL CAmpMFCDlg::OnInitDialog()
 	ASSERT(IDM_ABOUTBOX < 0xF000);
 
 	CMenu* pSysMenu = GetSystemMenu(FALSE);
-	if (pSysMenu != nullptr)
-	{
+	if(pSysMenu != nullptr){
 		BOOL bNameValid;
 		CString strAboutMenu;
 		bNameValid = strAboutMenu.LoadString(IDS_ABOUTBOX);
 		ASSERT(bNameValid);
-		if (!strAboutMenu.IsEmpty())
-		{
+		if(!strAboutMenu.IsEmpty()){
 			pSysMenu->AppendMenu(MF_SEPARATOR);
 			pSysMenu->AppendMenu(MF_STRING, IDM_ABOUTBOX, strAboutMenu);
 		}
@@ -99,22 +92,18 @@ BOOL CAmpMFCDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	ShowWindow(SW_MAXIMIZE);
+	//ShowWindow(SW_MAXIMIZE);
 
 	// TODO: Add extra initialization here
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
-void CAmpMFCDlg::OnSysCommand(UINT nID, LPARAM lParam)
-{
-	if ((nID & 0xFFF0) == IDM_ABOUTBOX)
-	{
+void CAmpMFCDlg::OnSysCommand(UINT nID, LPARAM lParam){
+	if((nID & 0xFFF0) == IDM_ABOUTBOX){
 		CAboutDlg dlgAbout;
 		dlgAbout.DoModal();
-	}
-	else
-	{
+	} else{
 		CDialogEx::OnSysCommand(nID, lParam);
 	}
 }
@@ -123,10 +112,8 @@ void CAmpMFCDlg::OnSysCommand(UINT nID, LPARAM lParam)
 //  to draw the icon.  For MFC applications using the document/view model,
 //  this is automatically done for you by the framework.
 
-void CAmpMFCDlg::OnPaint()
-{
-	if (IsIconic())
-	{
+void CAmpMFCDlg::OnPaint(){
+	if(IsIconic()){
 		CPaintDC dc(this); // device context for painting
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
@@ -141,17 +128,27 @@ void CAmpMFCDlg::OnPaint()
 
 		// Draw the icon
 		dc.DrawIcon(x, y, m_hIcon);
-	}
-	else
-	{
+	} else{
 		CDialogEx::OnPaint();
 	}
 }
 
 // The system calls this function to obtain the cursor to display while the user drags
 //  the minimized window.
-HCURSOR CAmpMFCDlg::OnQueryDragIcon()
-{
+HCURSOR CAmpMFCDlg::OnQueryDragIcon(){
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+void CAmpMFCDlg::OnBnClickedButton1(){
+	HMODULE hLib;
+	hLib = LoadLibrary(TEXT("c:\\Prog\\CPP\\DirectXSamples\\Tutorial01\\x64\\Debug\\Tutorial01.dll"));
+	if(hLib != NULL){
+		int (*pFunction)(HINSTANCE hInstance, int nCmdShow) = NULL;
+		(FARPROC&)pFunction = GetProcAddress(hLib, "tstlib");
+		if(pFunction != NULL){
+			int ret = pFunction(AfxGetApp()->m_hInstance, SW_SHOWDEFAULT);
+			_CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDOUT);
+			_RPT1(_CRT_WARN, "%d\n", ret);
+		}
+	}
+}

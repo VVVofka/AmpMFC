@@ -31,4 +31,11 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnBnClickedButton1();
 };
+
+//#pragma comment(lib, "Tutorial01.lib")
+//#pragma comment(lib, "Delayimp.lib")
+//#pragma comment(linker, "/DELAYLOAD:Tutorial01.dll")
+//extern "C" _declspec(dllimport) void tstlib(HINSTANCE hInstance, int nCmdShow);

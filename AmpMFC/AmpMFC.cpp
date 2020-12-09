@@ -72,6 +72,7 @@ BOOL CAmpMFCApp::InitInstance()
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 
 	CAmpMFCDlg dlg;
+	//dlg.win
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
 	if (nResponse == IDOK)
